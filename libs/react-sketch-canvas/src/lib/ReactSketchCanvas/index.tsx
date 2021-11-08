@@ -41,6 +41,8 @@ export type ReactSketchCanvasProps = {
   eraserWidth: number;
   allowOnlyPointerType: string;
   onUpdate: (updatedPaths: CanvasPath[]) => void;
+  onPointerDown: () => void;
+  onPointerUp: () => void;
   style: React.CSSProperties;
   withTimestamp: boolean;
 };
@@ -137,7 +139,17 @@ export class ReactSketchCanvas extends React.Component<
   /* Mouse Handlers - Mouse down, move and up */
 
   handlePointerDown(point: Point): void {
-    const { strokeColor, strokeWidth, eraserWidth, withTimestamp } = this.props;
+    const {
+      strokeColor,
+      strokeWidth,
+      eraserWidth,
+      withTimestamp,
+      onPointerDown,
+    } = this.props;
+
+    if (onPointerDown) {
+      onPointerDown();
+    }
 
     this.setState(
       produce((draft: ReactSketchCanvasStates) => {
@@ -180,7 +192,7 @@ export class ReactSketchCanvas extends React.Component<
   }
 
   handlePointerUp(): void {
-    const { withTimestamp } = this.props;
+    const { withTimestamp, onPointerUp } = this.props;
 
     const { isDrawing } = this.state;
 
@@ -209,6 +221,10 @@ export class ReactSketchCanvas extends React.Component<
       }),
       this.liftPathsUp
     );
+
+    if (onPointerUp) {
+      onPointerUp();
+    }
   }
 
   /* Mouse Handlers ends */
