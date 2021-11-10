@@ -332,7 +332,7 @@ export class Canvas extends React.Component<CanvasProps> {
               fill={backgroundImage ? 'url(#background)' : canvasColor}
             />
           </g>
-          <g id="canvas-pen-paths" mask="url(#eraser)">
+          <g id="canvas-pen-paths">
             <Paths paths={penPaths} />
           </g>
         </svg>
